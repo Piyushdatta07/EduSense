@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>AUERP — Staff Login | Alliance University</title>
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Open Sans', sans-serif;
+  background: #f0f2f5;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── TOP BAR ── */
+.topbar {
+  background: #2c3e6b;
+  color: white;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+}
+
+.topbar-left {
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.topbar-right {
+  font-size: 12px;
+  color: #aac4f0;
+}
+
+/* ── HEADER LOGO BAR ── */
+.logo-bar {
+  background: white;
+  border-bottom: 1px solid #dde3ec;
+  padding: 12px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo-circle {
+  width: 58px; height: 58px;
+  border-radius: 50%;
+  border: 2px solid #8b1a1a;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 9px; font-weight: 700; color: #8b1a1a;
+  text-align: center; line-height: 1.3;
+}
+
+.logo-name {
+  font-size: 26px;
+  font-weight: 700;
+  color: #8b1a1a;
+  letter-spacing: 1px;
+  line-height: 1;
+}
+
+.logo-sub {
+  font-size: 11px;
+  letter-spacing: 3px;
+  color: #555;
+}
+
+.logo-divider {
+  width: 1px; height: 48px;
+  background: #ccc;
+  margin: 0 14px;
+}
+
+.naac-text { font-size: 11px; color: #555; line-height: 1.5; }
+.naac-grade { font-size: 24px; font-weight: 700; color: #8b1a1a; }
+
+.logo-right {
+  text-align: right;
+  font-size: 12px;
+  color: #777;
+  line-height: 1.6;
+}
+
+.logo-right strong { color: #2c3e6b; font-size: 13px; }
+
+/* ── MAIN LOGIN AREA ── */
+.login-wrap {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  background: #eef1f6;
+}
+
+.login-container {
+  display: flex;
+  width: 900px;
+  max-width: 100%;
+  background: white;
+  border: 1px solid #dde3ec;
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow: 0 4px 24px rgba(44,62,107,0.08);
+}
+
+/* ── LEFT PANEL ── */
+.login-left {
+  width: 340px;
+  flex-shrink: 0;
+  background: linear-gradient(160deg, #2c3e6b 0%, #1a2a4a 100%);
+  padding: 40px 32px;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.login-left-title {
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1.3;
+  margin-bottom: 10px;
+}
+
+.login-left-sub {
+  font-size: 13px;
+  color: #aac4f0;
+  line-height: 1.6;
+  margin-bottom: 32px;
+}
+
+.feature-list { list-style: none; }
+
+.feature-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 16px;
+  font-size: 13px;
+  color: #d0e4ff;
+  line-height: 1.5;
+}
+
+.feature-list li i {
+  color: #7ba7e8;
+  margin-top: 2px;
+  flex-shrink: 0;
+  width: 16px;
+}
+
+.left-footer {
+  font-size: 11px;
+  color: #5a7ab0;
+  border-top: 1px solid #3a5080;
+  padding-top: 16px;
+  line-height: 1.6;
+}
+
+/* ── RIGHT PANEL ── */
+.login-right {
+  flex: 1;
+  padding: 40px 36px;
+}
+
+.login-right-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #2c3e6b;
+  margin-bottom: 4px;
+}
+
+.login-right-sub {
+  font-size: 12px;
+  color: #888;
+  margin-bottom: 28px;
+}
+
+/* Role selector */
+.role-tabs {
+  display: flex;
+  gap: 0;
+  margin-bottom: 24px;
+  border: 1px solid #dde3ec;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.role-tab {
+  flex: 1;
+  padding: 9px 12px;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 600;
+  color: #888;
+  cursor: pointer;
+  background: #f7f9fc;
+  border-right: 1px solid #dde3ec;
+  transition: background 0.2s, color 0.2s;
+  user-select: none;
+}
+
+.role-tab:last-child { border-right: none; }
+
+.role-tab.active {
+  background: #2c3e6b;
+  color: white;
+}
+
+/* Form */
+.form-group {
+  margin-bottom: 18px;
+}
+
+.form-label {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  color: #555;
+  margin-bottom: 6px;
+  letter-spacing: 0.3px;
+}
+
+.form-input {
+  width: 100%;
+  padding: 9px 12px;
+  border: 1px solid #dde3ec;
+  border-radius: 3px;
+  font-size: 13px;
+  font-family: 'Open Sans', sans-serif;
+  color: #333;
+  background: #fafbfc;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  outline: none;
+}
+
+.form-input:focus {
+  border-color: #5b7fd4;
+  box-shadow: 0 0 0 3px rgba(91,127,212,0.12);
+  background: white;
+}
+
+.form-input.error { border-color: #e74c3c; }
+
+.input-wrap {
+  position: relative;
+}
+
+.input-icon {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #bbb;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+/* Department dropdown */
+.form-select {
+  width: 100%;
+  padding: 9px 12px;
+  border: 1px solid #dde3ec;
+  border-radius: 3px;
+  font-size: 13px;
+  font-family: 'Open Sans', sans-serif;
+  color: #333;
+  background: #fafbfc;
+  outline: none;
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23aaa'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+}
+
+.form-select:focus {
+  border-color: #5b7fd4;
+  box-shadow: 0 0 0 3px rgba(91,127,212,0.12);
+}
+
+/* Row */
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+/* Checkbox row */
+.form-check {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.check-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: #666;
+}
+
+.check-left input[type="checkbox"] {
+  accent-color: #2c3e6b;
+  width: 14px; height: 14px;
+}
+
+.forgot-link {
+  font-size: 12px;
+  color: #5b7fd4;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.forgot-link:hover { text-decoration: underline; }
+
+/* Submit button */
+.btn-login {
+  width: 100%;
+  padding: 11px;
+  background: #2c3e6b;
+  color: white;
+  border: none;
+  border-radius: 3px;
+  font-size: 14px;
+  font-weight: 600;
+  font-family: 'Open Sans', sans-serif;
+  cursor: pointer;
+  transition: background 0.2s;
+  letter-spacing: 0.3px;
+}
+
+.btn-login:hover { background: #1a2a4a; }
+
+.btn-login:active { background: #0f1e38; }
+
+/* Error message */
+.error-msg {
+  display: none;
+  background: #fcd9dc;
+  border: 1px solid #f5a0a8;
+  border-radius: 3px;
+  padding: 9px 12px;
+  font-size: 12px;
+  color: #9b1c1c;
+  margin-bottom: 16px;
+}
+
+.error-msg.visible { display: flex; align-items: center; gap: 8px; }
+
+/* Help text */
+.login-help {
+  margin-top: 18px;
+  padding-top: 16px;
+  border-top: 1px solid #eee;
+  font-size: 11px;
+  color: #aaa;
+  text-align: center;
+  line-height: 1.7;
+}
+
+.login-help a { color: #5b7fd4; text-decoration: none; }
+
+/* Loading spinner */
+.btn-login .spinner {
+  display: none;
+  width: 14px; height: 14px;
+  border: 2px solid rgba(255,255,255,0.4);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  margin: 0 auto;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ── FOOTER ── */
+footer {
+  background: white;
+  border-top: 1px solid #dde3ec;
+  padding: 10px 24px;
+  font-size: 11px;
+  color: #aaa;
+  text-align: center;
+}
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <div class="topbar-left">AUERP</div>
+  <div class="topbar-right">Alliance University Enterprise Resource Planning Portal</div>
+</div>
+
+<!-- LOGO BAR -->
+<div class="logo-bar">
+  <div class="logo-left">
+    <div class="logo-circle">AU<br/>EST.<br/>2010</div>
+    <div>
+      <div class="logo-name">ALLIANCE</div>
+      <div class="logo-sub">UNIVERSITY</div>
+    </div>
+    <div class="logo-divider"></div>
+    <div class="naac-text">
+      NAAC<br/>GRADE <span class="naac-grade">A+</span>
+    </div>
+  </div>
+  <div class="logo-right">
+    <strong>Faculty &amp; Staff Portal</strong><br/>
+    School of Engineering &amp; Technology<br/>
+    Bengaluru — 562106, Karnataka, India
+  </div>
+</div>
+
+<!-- LOGIN AREA -->
+<div class="login-wrap">
+  <div class="login-container">
+
+    <!-- LEFT PANEL -->
+    <div class="login-left">
+      <div>
+        <div class="login-left-title">EduSense AI<br/>Classroom Monitor</div>
+        <div class="login-left-sub">
+          Real-time student engagement analytics powered by emotion recognition AI for faculty and technical staff.
+        </div>
+        <ul class="feature-list">
+          <li>
+            <i class="fas fa-users"></i>
+            <span>Monitor multiple students simultaneously via webcam</span>
+          </li>
+          <li>
+            <i class="fas fa-brain"></i>
+            <span>87% accurate MobileNetV2 emotion detection model</span>
+          </li>
+          <li>
+            <i class="fas fa-chart-line"></i>
+            <span>Live engagement scores and disengagement alerts</span>
+          </li>
+          <li>
+            <i class="fas fa-file-alt"></i>
+            <span>Auto-generated session reports saved as CSV</span>
+          </li>
+          <li>
+            <i class="fas fa-bell"></i>
+            <span>Instant alerts when class attention drops below threshold</span>
+          </li>
+        </ul>
+      </div>
+      <div class="left-footer">
+        Department of Computer Science &amp; Engineering<br/>
+        M.Tech — Artificial Intelligence &amp; Data Science<br/>
+        Academic Year 2025–26
+      </div>
+    </div>
+
+    <!-- RIGHT PANEL -->
+    <div class="login-right">
+      <div class="login-right-title">Staff Sign In</div>
+      <div class="login-right-sub">
+        Access restricted to authorised faculty and technical staff only
+      </div>
+
+      <!-- Role tabs -->
+      <div class="role-tabs">
+        <div class="role-tab active" onclick="setRole(this,'faculty')">
+          <i class="fas fa-chalkboard-teacher"></i> Faculty
+        </div>
+        <div class="role-tab" onclick="setRole(this,'lab')">
+          <i class="fas fa-laptop-code"></i> Lab Incharge
+        </div>
+        <div class="role-tab" onclick="setRole(this,'hod')">
+          <i class="fas fa-user-tie"></i> HOD / Admin
+        </div>
+      </div>
+
+      <!-- Error -->
+      <div class="error-msg" id="errorMsg">
+        <i class="fas fa-exclamation-circle"></i>
+        <span id="errorText">Invalid credentials. Please try again.</span>
+      </div>
+
+      <!-- Form -->
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Staff ID</label>
+          <input class="form-input" id="staffId"
+            type="text" placeholder="e.g. FAC2024001"
+            autocomplete="username"/>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Department</label>
+          <select class="form-select" id="department">
+            <option value="">Select Department</option>
+            <option value="cse" selected>CSE — AI &amp; Data Science</option>
+            <option value="ece">Electronics &amp; Communication</option>
+            <option value="mech">Mechanical Engineering</option>
+            <option value="civil">Civil Engineering</option>
+            <option value="mba">School of Management</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Institutional Email</label>
+        <input class="form-input" id="email"
+          type="email" placeholder="yourname@alliance.edu.in"
+          autocomplete="email"/>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Password</label>
+        <div class="input-wrap">
+          <input class="form-input" id="password"
+            type="password" placeholder="Enter your password"
+            autocomplete="current-password"/>
+          <i class="fas fa-eye input-icon" id="togglePwd"
+             onclick="togglePassword()"></i>
+        </div>
+      </div>
+
+      <div class="form-check">
+        <label class="check-left">
+          <input type="checkbox" id="rememberMe"/>
+          Remember me on this device
+        </label>
+        <a class="forgot-link" href="#">Forgot password?</a>
+      </div>
+
+      <button class="btn-login" id="loginBtn" onclick="handleLogin()">
+        <span id="btnText">Sign In to EduSense Dashboard</span>
+        <div class="spinner" id="btnSpinner"></div>
+      </button>
+
+      <div class="login-help">
+        Having trouble signing in? Contact
+        <a href="#">it-support@alliance.edu.in</a>
+        or call the IT helpdesk at <strong>080-4619-9000</strong><br/>
+        First time login? Use your staff ID as default password.
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<footer>
+  Alliance University &copy; 2025 &nbsp;|&nbsp;
+  EduSense AI — Classroom Engagement Monitor &nbsp;|&nbsp;
+  M.Tech CSE (AI &amp; Data Science) Project &nbsp;|&nbsp;
+  Powered by PyTorch + MobileNetV2
+</footer>
+
+<script>
+// ─── DEMO CREDENTIALS ─────────────────────────────────────
+// Any of these will work for demo purposes
+const VALID_USERS = [
+  { id:"FAC2024001", email:"dr.sharma@alliance.edu.in",   password:"faculty123", name:"Dr. R. Sharma",      role:"Faculty",      dept:"CSE — AI & Data Science" },
+  { id:"LAB2024010", email:"lab.incharge@alliance.edu.in",password:"lab123",     name:"Mr. K. Venkatesh",   role:"Lab Incharge", dept:"CSE — AI & Data Science" },
+  { id:"HOD2024001", email:"hod.cse@alliance.edu.in",     password:"hod123",     name:"Prof. S. Mehta",     role:"HOD",          dept:"CSE — AI & Data Science" },
+  { id:"FAC2024002", email:"piyush@alliance.edu.in",      password:"1234",       name:"A. Piyush Datta",    role:"Faculty",      dept:"CSE — AI & Data Science" },
+];
+
+let selectedRole = "faculty";
+
+function setRole(el, role) {
+  selectedRole = role;
+  document.querySelectorAll(".role-tab").forEach(t => t.classList.remove("active"));
+  el.classList.add("active");
+  document.getElementById("errorMsg").classList.remove("visible");
+}
+
+function togglePassword() {
+  const pwd = document.getElementById("password");
+  const icon = document.getElementById("togglePwd");
+  if (pwd.type === "password") {
+    pwd.type = "text";
+    icon.classList.replace("fa-eye","fa-eye-slash");
+  } else {
+    pwd.type = "password";
+    icon.classList.replace("fa-eye-slash","fa-eye");
+  }
+}
+
+function showError(msg) {
+  const el = document.getElementById("errorMsg");
+  document.getElementById("errorText").textContent = msg;
+  el.classList.add("visible");
+}
+
+function handleLogin() {
+  const staffId  = document.getElementById("staffId").value.trim();
+  const email    = document.getElementById("email").value.trim();
+  const password = document.getElementById("password").value;
+  const dept     = document.getElementById("department").value;
+
+  // Basic validation
+  if (!staffId) { showError("Please enter your Staff ID."); return; }
+  if (!email)   { showError("Please enter your institutional email."); return; }
+  if (!password){ showError("Please enter your password."); return; }
+  if (!dept)    { showError("Please select your department."); return; }
+
+  if (!email.includes("@alliance.edu.in")) {
+    showError("Please use your Alliance University email (@alliance.edu.in).");
+    return;
+  }
+
+  // Show loading
+  document.getElementById("btnText").style.display    = "none";
+  document.getElementById("btnSpinner").style.display = "block";
+  document.getElementById("loginBtn").disabled        = true;
+  document.getElementById("errorMsg").classList.remove("visible");
+
+  // Simulate auth delay
+  setTimeout(() => {
+    const user = VALID_USERS.find(u =>
+      u.id === staffId && u.password === password
+    );
+
+    if (user) {
+      // Save session
+      sessionStorage.setItem("edusense_user", JSON.stringify({
+        name: user.name,
+        role: user.role,
+        dept: user.dept,
+        email: email,
+        id: staffId
+      }));
+      // Redirect to dashboard
+      window.location.href = "au_dashboard.html";
+    } else {
+      document.getElementById("btnText").style.display    = "block";
+      document.getElementById("btnSpinner").style.display = "none";
+      document.getElementById("loginBtn").disabled        = false;
+      showError("Invalid Staff ID or password. Please try again.");
+    }
+  }, 1200);
+}
+
+// Allow Enter key to submit
+document.addEventListener("keydown", e => {
+  if (e.key === "Enter") handleLogin();
+});
+</script>
+</body>
+</html>

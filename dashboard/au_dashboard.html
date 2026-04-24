@@ -1,0 +1,1029 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>EduSense — Classroom Monitor | Alliance University</title>
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Open Sans', sans-serif;
+  background: #f0f2f5;
+  color: #333;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* ── TOP NAV BAR ── */
+.topbar {
+  background: #2c3e6b;
+  color: white;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 1000;
+}
+
+.topbar-left {
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  font-size: 13px;
+}
+
+.topbar-right i {
+  font-size: 16px;
+  cursor: pointer;
+  opacity: 0.85;
+}
+
+.topbar-right .user-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+}
+
+.topbar-right .user-info img {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  background: #5b7fd4;
+  object-fit: cover;
+}
+
+.user-avatar {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  background: #5b7fd4;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; font-weight: 600;
+}
+
+/* ── SIDEBAR ── */
+.sidebar {
+  position: fixed;
+  top: 48px; left: 0; bottom: 0;
+  width: 220px;
+  background: #2d2d2d;
+  color: #ccc;
+  overflow-y: auto;
+  z-index: 999;
+}
+
+.sidebar-user {
+  padding: 16px 14px;
+  border-bottom: 1px solid #3a3a3a;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.sidebar-avatar {
+  width: 38px; height: 38px;
+  border-radius: 50%;
+  background: #5b7fd4;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 15px; font-weight: 700; color: white;
+}
+
+.sidebar-username {
+  font-size: 12px;
+  font-weight: 600;
+  color: #fff;
+  line-height: 1.3;
+}
+
+.sidebar-role {
+  font-size: 10px;
+  color: #888;
+}
+
+.sidebar-section {
+  padding: 10px 14px 4px;
+  font-size: 9px;
+  letter-spacing: 1.5px;
+  color: #666;
+  text-transform: uppercase;
+}
+
+.sidebar-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 9px 14px;
+  font-size: 13px;
+  color: #bbb;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+  text-decoration: none;
+}
+
+.sidebar-item:hover,
+.sidebar-item.active {
+  background: #3a3a3a;
+  color: #fff;
+}
+
+.sidebar-item.active {
+  border-left: 3px solid #5b7fd4;
+  color: #7ba7e8;
+}
+
+.sidebar-item i {
+  width: 20px;
+  font-size: 13px;
+  margin-right: 8px;
+}
+
+.sidebar-item .chevron {
+  font-size: 10px;
+  color: #666;
+}
+
+/* ── MAIN CONTENT ── */
+.main {
+  margin-top: 48px;
+  margin-left: 220px;
+  padding: 0;
+  flex: 1;
+}
+
+/* ── PAGE HEADER ── */
+.page-header {
+  background: white;
+  padding: 10px 24px;
+  border-bottom: 1px solid #dde3ec;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.page-header-logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.page-header-logo img {
+  height: 52px;
+}
+
+.logo-placeholder {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo-circle {
+  width: 52px; height: 52px;
+  border-radius: 50%;
+  border: 2px solid #8b1a1a;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px; font-weight: 700; color: #8b1a1a;
+  text-align: center; line-height: 1.2;
+}
+
+.logo-text-block {
+  display: flex;
+  flex-direction: column;
+}
+
+.logo-alliance {
+  font-size: 22px;
+  font-weight: 700;
+  color: #8b1a1a;
+  letter-spacing: 1px;
+  line-height: 1;
+}
+
+.logo-university {
+  font-size: 11px;
+  letter-spacing: 3px;
+  color: #555;
+  font-weight: 400;
+}
+
+.logo-divider {
+  width: 1px;
+  height: 44px;
+  background: #ccc;
+  margin: 0 12px;
+}
+
+.naac-block {
+  font-size: 11px;
+  color: #555;
+  line-height: 1.4;
+}
+
+.naac-grade {
+  font-size: 22px;
+  font-weight: 700;
+  color: #8b1a1a;
+}
+
+.breadcrumb {
+  font-size: 12px;
+  color: #888;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.breadcrumb a { color: #5b7fd4; text-decoration: none; }
+.breadcrumb span { color: #aaa; }
+
+/* ── CONTENT AREA ── */
+.content {
+  padding: 20px 24px;
+}
+
+/* ── SECTION CARD ── */
+.section-card {
+  background: white;
+  border: 1px solid #dde3ec;
+  border-radius: 4px;
+  margin-bottom: 18px;
+  overflow: hidden;
+}
+
+.section-header {
+  background: #f7f9fc;
+  border-bottom: 1px solid #dde3ec;
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 14px;
+  font-weight: 600;
+  color: #2c3e6b;
+}
+
+.section-header i {
+  margin-right: 8px;
+  color: #5b7fd4;
+}
+
+.section-body { padding: 16px; }
+
+/* ── STAT ROW ── */
+.stat-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 18px;
+}
+
+.stat-box {
+  background: white;
+  border: 1px solid #dde3ec;
+  border-radius: 4px;
+  padding: 14px 16px;
+  border-top: 3px solid #5b7fd4;
+}
+
+.stat-box.green  { border-top-color: #27ae60; }
+.stat-box.red    { border-top-color: #e74c3c; }
+.stat-box.orange { border-top-color: #e67e22; }
+.stat-box.blue   { border-top-color: #2980b9; }
+
+.stat-box-label {
+  font-size: 11px;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+
+.stat-box-value {
+  font-size: 28px;
+  font-weight: 700;
+  color: #2c3e6b;
+  line-height: 1;
+}
+
+.stat-box-sub {
+  font-size: 11px;
+  color: #aaa;
+  margin-top: 4px;
+}
+
+/* ── TABLE STYLE ── */
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.data-table th {
+  background: #dce8f5;
+  color: #2c3e6b;
+  padding: 10px 14px;
+  text-align: left;
+  font-weight: 600;
+  border: 1px solid #c5d8ed;
+}
+
+.data-table td {
+  padding: 9px 14px;
+  border: 1px solid #e5eaf2;
+  color: #444;
+}
+
+.data-table tr:nth-child(even) td { background: #f7f9fc; }
+.data-table tr:hover td { background: #eef3fb; }
+
+.status-badge {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 10px;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.badge-high    { background: #d4f4e8; color: #1a7a4a; }
+.badge-mod     { background: #fef3cd; color: #856404; }
+.badge-low     { background: #ffe0cc; color: #c0501a; }
+.badge-dis     { background: #fcd9dc; color: #9b1c1c; }
+
+/* ── ENGAGEMENT BAR IN TABLE ── */
+.eng-bar-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.eng-bar-bg {
+  flex: 1;
+  height: 8px;
+  background: #e5eaf2;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.eng-bar-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.6s ease;
+}
+
+.eng-bar-pct {
+  font-size: 11px;
+  color: #666;
+  width: 32px;
+  text-align: right;
+}
+
+/* ── EMOTION DISTRIBUTION ── */
+.emotion-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 10px;
+}
+
+.emotion-chip {
+  text-align: center;
+  padding: 10px 6px;
+  border-radius: 4px;
+  border: 1px solid #e5eaf2;
+  background: #f7f9fc;
+}
+
+.emotion-chip-name {
+  font-size: 11px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.emotion-chip-count {
+  font-size: 22px;
+  font-weight: 700;
+  color: #2c3e6b;
+}
+
+.emotion-chip-pct {
+  font-size: 10px;
+  color: #888;
+  margin-top: 2px;
+}
+
+/* ── TIMELINE CANVAS ── */
+canvas#timeline {
+  width: 100%;
+  height: 90px;
+  display: block;
+}
+
+/* ── ALERT BAR ── */
+.alert-bar {
+  display: none;
+  background: #fcd9dc;
+  border: 1px solid #f5a0a8;
+  border-radius: 4px;
+  padding: 10px 16px;
+  font-size: 13px;
+  color: #9b1c1c;
+  font-weight: 500;
+  margin-bottom: 16px;
+}
+
+.alert-bar.visible { display: flex; align-items: center; gap: 10px; }
+
+/* ── STATUS INDICATOR ── */
+.live-dot {
+  display: inline-block;
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: #27ae60;
+  margin-right: 6px;
+  animation: blink 1.5s infinite;
+}
+
+.live-dot.offline { background: #e74c3c; animation: none; }
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+.conn-badge {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 10px;
+  background: #d4f4e8;
+  color: #1a7a4a;
+}
+
+.conn-badge.offline {
+  background: #fef3cd;
+  color: #856404;
+}
+
+/* ── FOOTER ── */
+.footer {
+  margin-left: 220px;
+  background: white;
+  border-top: 1px solid #dde3ec;
+  padding: 10px 24px;
+  font-size: 11px;
+  color: #aaa;
+  text-align: center;
+}
+
+/* ── NO DATA ── */
+.no-data {
+  text-align: center;
+  padding: 30px;
+  color: #aaa;
+  font-size: 13px;
+}
+
+.no-data i { font-size: 32px; margin-bottom: 10px; display: block; color: #ccc; }
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <div class="topbar-left">AUERP</div>
+  <div class="topbar-right">
+    <i class="fas fa-envelope"></i>
+    <i class="fas fa-bell"></i>
+    <i class="fas fa-flag"></i>
+    <div class="user-info">
+      <div class="user-avatar">P</div>
+      <span>pakulaMTECH25@stu.alliance.edu.in</span>
+    </div>
+    <i class="fas fa-cog"></i>
+  </div>
+</div>
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+  <div class="sidebar-user">
+    <div class="sidebar-avatar">P</div>
+    <div>
+      <div class="sidebar-username">A PIYUSH DATTA</div>
+      <div class="sidebar-role">M.Tech Student</div>
+    </div>
+  </div>
+
+  <div class="sidebar-section">Main Navigation</div>
+
+  <a class="sidebar-item" href="#">
+    <span><i class="fas fa-calendar-check"></i>Attendance</span>
+    <i class="fas fa-chevron-right chevron"></i>
+  </a>
+  <a class="sidebar-item" href="#">
+    <span><i class="fas fa-calendar-alt"></i>Time Table</span>
+    <i class="fas fa-chevron-right chevron"></i>
+  </a>
+  <a class="sidebar-item" href="#">
+    <span><i class="fas fa-comment-alt"></i>Feedback</span>
+    <i class="fas fa-chevron-right chevron"></i>
+  </a>
+  <a class="sidebar-item" href="#">
+    <span><i class="fas fa-chart-bar"></i>Result</span>
+    <i class="fas fa-chevron-right chevron"></i>
+  </a>
+  <a class="sidebar-item" href="#">
+    <span><i class="fas fa-user"></i>My Profile</span>
+    <i class="fas fa-chevron-right chevron"></i>
+  </a>
+  <a class="sidebar-item" href="#">
+    <span><i class="fas fa-exclamation-circle"></i>Grievances</span>
+  </a>
+  <a class="sidebar-item" href="#">
+    <span><i class="fas fa-download"></i>Download</span>
+    <i class="fas fa-chevron-right chevron"></i>
+  </a>
+  <a class="sidebar-item" href="#">
+    <span><i class="fas fa-rupee-sign"></i>Fees</span>
+    <i class="fas fa-chevron-right chevron"></i>
+  </a>
+  <a class="sidebar-item" href="#">
+    <span><i class="fas fa-upload"></i>Upload</span>
+    <i class="fas fa-chevron-right chevron"></i>
+  </a>
+  <a class="sidebar-item" href="#">
+    <span><i class="fas fa-file-alt"></i>Apply</span>
+    <i class="fas fa-chevron-right chevron"></i>
+  </a>
+  <a class="sidebar-item active" href="#">
+    <span><i class="fas fa-brain"></i>EduSense AI</span>
+  </a>
+  <a class="sidebar-item" href="#">
+    <span><i class="fas fa-headset"></i>Support</span>
+    <i class="fas fa-chevron-right chevron"></i>
+  </a>
+  <a class="sidebar-item" href="#">
+    <span><i class="fas fa-book"></i>Library</span>
+    <i class="fas fa-chevron-right chevron"></i>
+  </a>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+
+  <!-- Page Header with Logo -->
+  <div class="page-header">
+    <div class="logo-placeholder">
+      <div class="logo-circle">AU<br/>EST.<br/>2010</div>
+      <div class="logo-text-block">
+        <div class="logo-alliance">ALLIANCE</div>
+        <div class="logo-university">UNIVERSITY</div>
+      </div>
+      <div class="logo-divider"></div>
+      <div class="naac-block">
+        NAAC<br/>GRADE <span class="naac-grade">A+</span>
+      </div>
+    </div>
+    <div class="breadcrumb">
+      <i class="fas fa-home"></i>
+      <a href="#">Home</a>
+      <span>&rsaquo;</span>
+      <a href="#">AI Tools</a>
+      <span>&rsaquo;</span>
+      <span>EduSense Classroom Monitor</span>
+    </div>
+  </div>
+
+  <!-- Content -->
+  <div class="content">
+
+    <!-- Alert -->
+    <div class="alert-bar" id="alertBar">
+      <i class="fas fa-exclamation-triangle"></i>
+      <span>Low class engagement detected! Consider a break or change of activity.</span>
+    </div>
+
+    <!-- Stat boxes -->
+    <div class="stat-row">
+      <div class="stat-box blue">
+        <div class="stat-box-label">Students Detected</div>
+        <div class="stat-box-value" id="statStudents">0</div>
+        <div class="stat-box-sub">faces in frame</div>
+      </div>
+      <div class="stat-box green">
+        <div class="stat-box-label">Class Engagement</div>
+        <div class="stat-box-value" id="statEngagement">0%</div>
+        <div class="stat-box-sub" id="statEngLabel">--</div>
+      </div>
+      <div class="stat-box orange">
+        <div class="stat-box-label">Focused Students</div>
+        <div class="stat-box-value" id="statFocused">0</div>
+        <div class="stat-box-sub">score &ge; 50%</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-box-label">Session Status</div>
+        <div class="stat-box-value" style="font-size:14px;padding-top:6px;">
+          <span class="live-dot" id="liveDot"></span>
+          <span class="conn-badge" id="connBadge">LIVE</span>
+        </div>
+        <div class="stat-box-sub" id="clockEl">--:--:--</div>
+      </div>
+    </div>
+
+    <!-- Student Engagement Table -->
+    <div class="section-card">
+      <div class="section-header">
+        <span><i class="fas fa-users"></i>Live Student Engagement Monitor</span>
+        <span style="font-size:11px;color:#888;font-weight:400;">Auto-refreshes every second</span>
+      </div>
+      <div class="section-body" style="padding:0;">
+        <table class="data-table" id="studentTable">
+          <thead>
+            <tr>
+              <th>Sl.No.</th>
+              <th>Student ID</th>
+              <th>Detected Emotion</th>
+              <th>Confidence</th>
+              <th>Engagement Score</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="studentTableBody">
+            <tr>
+              <td colspan="6">
+                <div class="no-data">
+                  <i class="fas fa-camera"></i>
+                  Waiting for camera feed — make sure classroom_tracker.py is running
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Two column: Emotion distribution + Timeline -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px;">
+
+      <!-- Emotion Distribution -->
+      <div class="section-card">
+        <div class="section-header">
+          <span><i class="fas fa-chart-pie"></i>Emotion Distribution</span>
+        </div>
+        <div class="section-body">
+          <div class="emotion-grid" id="emotionGrid">
+            <!-- filled by JS -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Engagement Timeline -->
+      <div class="section-card">
+        <div class="section-header">
+          <span><i class="fas fa-chart-line"></i>Engagement Timeline</span>
+        </div>
+        <div class="section-body" style="padding:12px 16px;">
+          <canvas id="timeline"></canvas>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Session Summary Table -->
+    <div class="section-card">
+      <div class="section-header">
+        <span><i class="fas fa-clipboard-list"></i>Session Log</span>
+        <span style="font-size:11px;color:#888;font-weight:400;" id="logCount">0 entries</span>
+      </div>
+      <div class="section-body" style="padding:0;max-height:220px;overflow-y:auto;">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Time</th>
+              <th>Students</th>
+              <th>Dominant Emotion</th>
+              <th>Class Avg Engagement</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="logTableBody">
+            <tr><td colspan="5" style="text-align:center;color:#aaa;padding:20px;">
+              Session log will appear here...
+            </td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div><!-- /content -->
+</div><!-- /main -->
+
+<div class="footer">
+  Alliance University &mdash; EduSense AI Classroom Monitor &copy; 2025 &nbsp;|&nbsp;
+  Powered by MobileNetV2 Emotion Detection &nbsp;|&nbsp;
+  M.Tech CSE &mdash; AI &amp; Data Science
+</div>
+
+<script>
+// ─── CONFIG ───────────────────────────────────────────────
+const SERVER   = "http://localhost:5000";
+const POLL_MS  = 1000;
+const MAX_HIST = 60;
+
+const EMOTIONS = ['Happy','Surprised','Neutral','Fearful','Disgusted','Sad','Angry'];
+
+const EMOTION_COLORS = {
+  Happy:     "#27ae60",
+  Surprised: "#e67e22",
+  Neutral:   "#7f8c8d",
+  Fearful:   "#8e44ad",
+  Disgusted: "#16a085",
+  Sad:       "#2980b9",
+  Angry:     "#e74c3c",
+};
+
+const ENGAGEMENT_SCORES = {
+  Happy:1.0, Surprised:0.9, Neutral:0.5,
+  Fearful:0.3, Disgusted:0.2, Sad:0.1, Angry:0.1,
+};
+
+// ─── STATE ────────────────────────────────────────────────
+let history  = [];
+let logRows  = [];
+let simData  = [];
+let lastLog  = 0;
+
+// ─── CLOCK ────────────────────────────────────────────────
+function tick() {
+  document.getElementById("clockEl").textContent =
+    new Date().toTimeString().slice(0,8);
+}
+setInterval(tick, 1000); tick();
+
+// ─── FETCH ────────────────────────────────────────────────
+async function fetchData() {
+  let students = [];
+  let ok = false;
+
+  try {
+    try {
+      const r = await fetch(`${SERVER}/classroom`,
+        { signal: AbortSignal.timeout(2000) });
+      if (r.ok) { const d = await r.json(); students = d.students || []; ok = true; }
+    } catch {
+      const r = await fetch(`${SERVER}/emotion`,
+        { signal: AbortSignal.timeout(2000) });
+      if (r.ok) {
+        const d = await r.json();
+        if (d.face_found) {
+          students = [{
+            id:1, emotion: d.emotion||"Neutral",
+            confidence: d.confidence||0.5,
+            score: ENGAGEMENT_SCORES[d.emotion]??0.5
+          }];
+        }
+        ok = true;
+      }
+    }
+  } catch { ok = false; }
+
+  setStatus(ok);
+  if (!ok) students = getDemoStudents();
+  updateAll(students);
+}
+
+// ─── DEMO ─────────────────────────────────────────────────
+function getDemoStudents() {
+  if (!simData.length || Math.random() < 0.15) {
+    const n = Math.floor(Math.random()*4)+1;
+    simData = Array.from({length:n},(_,i)=>{
+      const em = EMOTIONS[Math.floor(Math.random()*EMOTIONS.length)];
+      return { id:i+1, emotion:em,
+               confidence: 0.6+Math.random()*0.35,
+               score: ENGAGEMENT_SCORES[em] };
+    });
+  }
+  return simData;
+}
+
+// ─── STATUS ───────────────────────────────────────────────
+function setStatus(online) {
+  const dot   = document.getElementById("liveDot");
+  const badge = document.getElementById("connBadge");
+  if (online) {
+    dot.classList.remove("offline");
+    badge.textContent = "LIVE";
+    badge.className   = "conn-badge";
+  } else {
+    dot.classList.add("offline");
+    badge.textContent = "DEMO";
+    badge.className   = "conn-badge offline";
+  }
+}
+
+// ─── UPDATE ALL ───────────────────────────────────────────
+function updateAll(students) {
+  const count   = students.length;
+  const avg     = count
+    ? students.reduce((s,d)=>s+d.score,0)/count : 0;
+  const pct     = Math.round(avg*100);
+  const focused = students.filter(s=>s.score>=0.5).length;
+
+  // Stats
+  document.getElementById("statStudents").textContent   = count;
+  document.getElementById("statEngagement").textContent = pct+"%";
+  document.getElementById("statFocused").textContent    = focused;
+
+  let label, color;
+  if (avg>=0.75){label="Highly Engaged"; color="#27ae60";}
+  else if (avg>=0.5){label="Moderate";    color="#e67e22";}
+  else if (avg>=0.3){label="Low Focus";   color="#e67e22";}
+  else             {label="Disengaged";  color="#e74c3c";}
+
+  const lblEl = document.getElementById("statEngLabel");
+  lblEl.textContent  = label;
+  lblEl.style.color  = color;
+
+  // Alert
+  const alertEl = document.getElementById("alertBar");
+  if (avg < 0.35 && count > 0) alertEl.classList.add("visible");
+  else alertEl.classList.remove("visible");
+
+  // Student table
+  renderTable(students);
+
+  // Emotion chips
+  renderEmotionGrid(students);
+
+  // Timeline
+  history.push(pct);
+  if (history.length > MAX_HIST) history.shift();
+  drawTimeline();
+
+  // Log every 10s
+  const now = Date.now();
+  if (now - lastLog > 10000 && count > 0) {
+    lastLog = now;
+    addLog(students, avg);
+  }
+}
+
+// ─── STUDENT TABLE ────────────────────────────────────────
+function renderTable(students) {
+  const tbody = document.getElementById("studentTableBody");
+  if (!students.length) {
+    tbody.innerHTML = `<tr><td colspan="6">
+      <div class="no-data"><i class="fas fa-camera"></i>
+      No faces detected — point camera at students</div></td></tr>`;
+    return;
+  }
+
+  tbody.innerHTML = students.map((s,i) => {
+    const pct   = Math.round(s.score*100);
+    const conf  = Math.round((s.confidence||0)*100);
+    const color = EMOTION_COLORS[s.emotion]||"#999";
+    let badge, badgeClass;
+    if (s.score>=0.75){badge="Highly Engaged"; badgeClass="badge-high";}
+    else if(s.score>=0.5){badge="Moderate";    badgeClass="badge-mod";}
+    else if(s.score>=0.3){badge="Low Focus";   badgeClass="badge-low";}
+    else                 {badge="Disengaged";  badgeClass="badge-dis";}
+
+    return `<tr>
+      <td>${i+1}</td>
+      <td><strong>Student ${s.id}</strong></td>
+      <td><span style="color:${color};font-weight:600;">
+        ${s.emotion}</span></td>
+      <td>${conf}%</td>
+      <td>
+        <div class="eng-bar-wrap">
+          <div class="eng-bar-bg">
+            <div class="eng-bar-fill"
+              style="width:${pct}%;background:${color}"></div>
+          </div>
+          <div class="eng-bar-pct">${pct}%</div>
+        </div>
+      </td>
+      <td><span class="status-badge ${badgeClass}">${badge}</span></td>
+    </tr>`;
+  }).join("");
+}
+
+// ─── EMOTION GRID ─────────────────────────────────────────
+function renderEmotionGrid(students) {
+  const counts = {};
+  students.forEach(s => { counts[s.emotion] = (counts[s.emotion]||0)+1; });
+  const total = students.length || 1;
+
+  document.getElementById("emotionGrid").innerHTML =
+    EMOTIONS.map(em => {
+      const cnt   = counts[em]||0;
+      const pct   = Math.round(cnt/total*100);
+      const color = EMOTION_COLORS[em];
+      return `<div class="emotion-chip"
+        style="border-top:3px solid ${color}">
+        <div class="emotion-chip-name" style="color:${color}">${em}</div>
+        <div class="emotion-chip-count">${cnt}</div>
+        <div class="emotion-chip-pct">${pct}%</div>
+      </div>`;
+    }).join("");
+}
+
+// ─── SESSION LOG ──────────────────────────────────────────
+function addLog(students, avg) {
+  const time    = new Date().toTimeString().slice(0,8);
+  const count   = students.length;
+  const pct     = Math.round(avg*100);
+  const dominant = students.reduce((a,b)=>a.score>b.score?a:b,students[0]);
+  let badge, badgeClass;
+  if (avg>=0.75){badge="Highly Engaged";badgeClass="badge-high";}
+  else if(avg>=0.5){badge="Moderate";badgeClass="badge-mod";}
+  else if(avg>=0.3){badge="Low Focus";badgeClass="badge-low";}
+  else {badge="Disengaged";badgeClass="badge-dis";}
+
+  logRows.unshift({ time, count, dominant: dominant.emotion, pct, badge, badgeClass });
+  if (logRows.length > 20) logRows.pop();
+
+  document.getElementById("logCount").textContent = logRows.length+" entries";
+  document.getElementById("logTableBody").innerHTML =
+    logRows.map(r=>`<tr>
+      <td>${r.time}</td>
+      <td>${r.count}</td>
+      <td style="color:${EMOTION_COLORS[r.dominant]||'#333'};font-weight:600">
+        ${r.dominant}</td>
+      <td>${r.pct}%</td>
+      <td><span class="status-badge ${r.badgeClass}">${r.badge}</span></td>
+    </tr>`).join("");
+}
+
+// ─── TIMELINE CANVAS ──────────────────────────────────────
+function drawTimeline() {
+  const canvas = document.getElementById("timeline");
+  const dpr    = window.devicePixelRatio||1;
+  canvas.width  = canvas.offsetWidth*dpr;
+  canvas.height = canvas.offsetHeight*dpr;
+  const ctx = canvas.getContext("2d");
+  ctx.scale(dpr,dpr);
+  const W = canvas.offsetWidth, H = canvas.offsetHeight;
+  ctx.clearRect(0,0,W,H);
+  if (history.length < 2) return;
+
+  const step = W/(MAX_HIST-1);
+
+  // Grid
+  [25,50,75].forEach(y=>{
+    const yp = H-(y/100)*H;
+    ctx.strokeStyle = "#e5eaf2";
+    ctx.lineWidth   = 1;
+    ctx.beginPath(); ctx.moveTo(0,yp); ctx.lineTo(W,yp); ctx.stroke();
+    ctx.fillStyle = "#bbb";
+    ctx.font = "9px Open Sans, sans-serif";
+    ctx.fillText(y+"%", 2, yp-2);
+  });
+
+  // Fill
+  const grad = ctx.createLinearGradient(0,0,0,H);
+  grad.addColorStop(0,"rgba(41,128,185,0.25)");
+  grad.addColorStop(1,"rgba(41,128,185,0.0)");
+  ctx.fillStyle = grad;
+  ctx.beginPath();
+  history.forEach((v,i)=>{
+    const x=i*step, y=H-(v/100)*H;
+    i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+  });
+  ctx.lineTo((history.length-1)*step,H);
+  ctx.lineTo(0,H); ctx.closePath(); ctx.fill();
+
+  // Line
+  ctx.strokeStyle = "#2980b9";
+  ctx.lineWidth   = 2;
+  ctx.lineJoin    = "round";
+  ctx.beginPath();
+  history.forEach((v,i)=>{
+    const x=i*step, y=H-(v/100)*H;
+    i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+  });
+  ctx.stroke();
+
+  // Dot
+  const last=history[history.length-1];
+  ctx.beginPath();
+  ctx.arc((history.length-1)*step, H-(last/100)*H, 4,0,Math.PI*2);
+  ctx.fillStyle="#2980b9"; ctx.fill();
+}
+
+// ─── INIT ─────────────────────────────────────────────────
+setInterval(fetchData, POLL_MS);
+fetchData();
+window.addEventListener("resize", drawTimeline);
+</script>
+</body>
+</html>
